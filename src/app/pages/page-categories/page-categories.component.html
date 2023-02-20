@@ -1,0 +1,60 @@
+<div class="grid grid-cols-12 w-full w-full">
+	<div class="col-span-3 w-full h-full bg-white">
+		<div class="flex flex-col gap-1 p-4 h-screen overflow-auto">
+
+			<div class="flex justify-end items-center">
+				<app-form-add-category></app-form-add-category>
+			</div>
+			
+			<!-- All -->
+				<app-category
+					[routerLink]="['/space/categories/all']"
+					[routerLinkActive]="['opacity-100', 'bg-neutral-100', 'rounded']"
+					[isAll]="true"
+					[bookmarks$]="bookmarks$"
+				>
+				</app-category>
+
+			<!-- Uncategorized -->
+				<app-category
+					[routerLink]="['/space/categories/uncategorized']"
+					[routerLinkActive]="['opacity-100', 'bg-neutral-100', 'rounded']"
+					[isUncategorized]="true"
+					[bookmarks$]="bookmarks$"
+				>
+				</app-category>
+
+			<!-- Trash -->
+				<app-category
+					[routerLink]="['/space/categories/trash']"
+					[routerLinkActive]="['opacity-100', 'bg-neutral-100', 'rounded']"
+					[isTrash]="true"
+					[bookmarks$]="bookmarks$"
+				>
+				</app-category>
+			
+			<nz-divider></nz-divider>
+			
+			<!-- Categories -->
+			<div
+				(cdkDropListDropped)="dropCategory($event)"
+				cdkDropList
+				cdkDropListOrientation="vertical"
+				class="flex flex-col gap-1"
+			>
+				<app-category
+					*ngFor="let category of categories$ | async"
+					[routerLink]="['/space/categories', category.id]"
+					[isCategorized]="true"
+					[category]="category"
+					[bookmarks$]="bookmarks$"
+					cdkDrag>
+				</app-category>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-span-9 w-full h-full" [ngStyle]="{background: theme.color.primary.light}">
+		<router-outlet></router-outlet>
+	</div>
+</div>
